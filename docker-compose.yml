@@ -1,0 +1,12 @@
+services:
+  efcorelearn:
+    image: ${DOCKER_REGISTRY-}efcore
+    build:
+      context: .
+      dockerfile: EfCore/Dockerfile
+  postgresdb:
+    image: postgres
+    
+volumes:
+  postgres_data:
+  
