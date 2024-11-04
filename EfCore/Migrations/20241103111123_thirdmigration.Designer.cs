@@ -2,6 +2,7 @@
 using EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EfCore.Migrations
 {
     [DbContext(typeof(EfCoreDbContext))]
-    partial class EfCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103111123_thirdmigration")]
+    partial class thirdmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +48,6 @@ namespace EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EngineId")
-                        .IsUnique();
-
                     b.ToTable("Cars");
                 });
 
@@ -69,22 +69,6 @@ namespace EfCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Engines");
-                });
-
-            modelBuilder.Entity("EfCore.Entities.Car", b =>
-                {
-                    b.HasOne("EfCore.Entities.Engine", "Engine")
-                        .WithOne("Car")
-                        .HasForeignKey("EfCore.Entities.Car", "EngineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Engine");
-                });
-
-            modelBuilder.Entity("EfCore.Entities.Engine", b =>
-                {
-                    b.Navigation("Car");
                 });
 #pragma warning restore 612, 618
         }

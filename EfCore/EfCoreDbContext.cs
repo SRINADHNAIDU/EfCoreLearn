@@ -11,8 +11,13 @@ public class EfCoreDbContext: DbContext
         
     }
     public DbSet<Car> Cars { get; set; }
+    public DbSet<Engine> Engines { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Car>()
+            .HasOne(o => o.Engine)
+            .WithOne(e => e.Car)
+            .HasForeignKey<Car>(d => d.EngineId);  
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

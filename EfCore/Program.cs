@@ -15,8 +15,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<EfCoreDbContext>((sp, options) =>
 {
     options.UseNpgsql(connectionString);
+    
 });
 var app = builder.Build();
+
+// Run migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<EfCoreDbContext>();
+    await dbContext.Database.MigrateAsync(); // Apply pending migrations
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
